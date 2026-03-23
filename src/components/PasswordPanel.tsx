@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { X, Copy, ExternalLink, Loader2, AlertCircle, Trash2, Check } from 'lucide-react';
+import { X, Copy, ExternalLink, Loader2, AlertCircle, Trash2, Check, Edit2 } from 'lucide-react';
 import { usePasswords } from '../hooks/usePasswords';
 import type { PasswordEntry } from '../hooks/usePasswords';
 import { analyzePassword } from '../lib/groq';
 import { cn } from '../lib/utils';
 
-export default function PasswordPanel({ entry, onClose }: { entry: PasswordEntry | null, onClose: () => void }) {
+export default function PasswordPanel({ entry, onClose, onEdit }: { entry: PasswordEntry | null, onClose: () => void, onEdit: () => void }) {
   const [analysis, setAnalysis] = useState<any>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -73,16 +73,28 @@ export default function PasswordPanel({ entry, onClose }: { entry: PasswordEntry
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <button 
                 onClick={handleCopy}
                 className="flex items-center justify-center gap-2 py-2 rounded-lg bg-surface border border-gray-800 text-sm font-medium text-gray-300 hover:text-white transition-colors"
               >
                 {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                {copied ? 'Copied' : 'Copy Password'}
+                {copied ? 'Copied' : 'Copy'}
               </button>
-              <button className="flex items-center justify-center gap-2 py-2 rounded-lg bg-surface border border-gray-800 text-sm font-medium text-gray-300 hover:text-white transition-colors">
+              <button 
+                onClick={() => {
+                  const url = entry.website.startsWith('http') ? entry.website : `https://${entry.website}`;
+                  window.open(url, '_blank');
+                }}
+                className="flex items-center justify-center gap-2 py-2 rounded-lg bg-surface border border-gray-800 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              >
                 <ExternalLink className="w-4 h-4" /> Go to site
+              </button>
+              <button 
+                onClick={onEdit}
+                className="flex items-center justify-center gap-2 py-2 rounded-lg bg-surface border border-gray-800 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              >
+                <Edit2 className="w-4 h-4" /> Edit
               </button>
             </div>
 

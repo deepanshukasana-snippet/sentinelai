@@ -3,15 +3,17 @@ import { X, Key, Zap, Shield, Loader2 } from 'lucide-react';
 import { analyzePassword } from '../lib/groq';
 import { cn } from '../lib/utils';
 import { usePasswords } from '../hooks/usePasswords';
+import type { PasswordEntry } from '../hooks/usePasswords';
 
 interface AddPasswordModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+  editingEntry?: PasswordEntry | null;
 }
 
-export default function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModalProps) {
-  const { addPassword } = usePasswords();
+export default function AddPasswordModal({ isOpen, onClose, onSuccess, editingEntry }: AddPasswordModalProps) {
+  const { addPassword, updatePassword } = usePasswords();
   const [website, setWebsite] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +21,21 @@ export default function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPass
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [analysis, setAnalysis] = useState<{ strength: string; crackTime: string; score: number; suggestions: string[] } | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (editingEntry) {
+        setWebsite(editingEntry.website);
+        setUsername(editingEntry.username);
+        setPassword(editingEntry.decrypted_password || '');
+      } else {
+        setWebsite('');
+        setUsername('');
+        setPassword('');
+        setAnalysis(null);
+      }
+    }
+  }, [isOpen, editingEntry]);
 
   useEffect(() => {
     // Debounce password analysis
@@ -48,18 +65,23 @@ export default function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPass
     e.preventDefault();
     setIsSaving(true);
     
-    await addPassword({
-      website,
-      username,
-      plainText: password,
-      strength: analysis?.strength as any || 'Weak'
-    });
+    if (editingEntry) {
+      await updatePassword(editingEntry.id, {
+        website,
+        username,
+        plainText: password,
+        strength: analysis?.strength as any || editingEntry.strength
+      });
+    } else {
+      await addPassword({
+        website,
+        username,
+        plainText: password,
+        strength: analysis?.strength as any || 'Weak'
+      });
+    }
     
     setIsSaving(false);
-    setWebsite('');
-    setUsername('');
-    setPassword('');
-    setAnalysis(null);
     onSuccess?.();
     onClose();
   };
@@ -79,9 +101,11 @@ export default function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPass
         <div className="p-6 border-b border-gray-800">
           <h2 className="text-xl font-semibold text-white flex items-center gap-2">
             <Key className="w-5 h-5 text-blue-500" />
-            Add New Password
+            {editingEntry ? 'Edit Password' : 'Add New Password'}
           </h2>
-          <p className="text-sm text-gray-400 mt-1">Securely store a new credential in your vault.</p>
+          <p className="text-sm text-gray-400 mt-1">
+            {editingEntry ? 'Update your saved credential details.' : 'Securely store a new credential in your vault.'}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
@@ -175,7 +199,7 @@ export default function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPass
               <div className="absolute inset-0 flex items-center justify-center text-gray-500 flex-col gap-2">
                 <Shield className="w-8 h-8 opacity-20" />
                 <span className="text-xs text-center px-4 max-w-[250px]">
-                  Type a password to receive real-time AI security insights powered by Groq.
+                  {editingEntry ? 'Modify password to run deep AI analysis.' : 'Type a password to receive real-time AI security insights powered by Groq.'}
                 </span>
               </div>
             )}
@@ -194,7 +218,7 @@ export default function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPass
               disabled={isSaving || !password}
               className="px-6 py-2 rounded-xl text-sm font-medium bg-gradient-primary bg-gradient-primary-hover disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-all"
             >
-              {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Save Password'}
+              {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : editingEntry ? 'Update Password' : 'Save Password'}
             </button>
           </div>
         </form>

@@ -10,6 +10,7 @@ export default function Vault() {
   const { passwords, loading } = usePasswords();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPassword, setSelectedPassword] = useState<PasswordEntry | null>(null);
+  const [editingEntry, setEditingEntry] = useState<PasswordEntry | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredPasswords = passwords.filter(p => 
@@ -105,8 +106,22 @@ export default function Vault() {
         </div>
       </div>
 
-      <AddPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <PasswordPanel entry={selectedPassword} onClose={() => setSelectedPassword(null)} />
+      <AddPasswordModal 
+        isOpen={isModalOpen || !!editingEntry} 
+        editingEntry={editingEntry}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingEntry(null);
+        }} 
+      />
+      <PasswordPanel 
+        entry={selectedPassword} 
+        onClose={() => setSelectedPassword(null)} 
+        onEdit={() => {
+          setEditingEntry(selectedPassword);
+          setSelectedPassword(null);
+        }}
+      />
     </div>
   );
 }

@@ -84,5 +84,39 @@ export function usePasswords() {
     return !error;
   };
 
-  return { passwords, loading, addPassword, deletePassword, refresh: fetchPasswords };
+  const updatePassword = async (id: string, updates: Partial<Omit<PasswordEntry, 'id' | 'created_at'>> & { plainText?: string }) => {
+    if (!user) return null;
+    
+    let encrypted = undefined;
+    if (updates.plainText) {
+      encrypted = encryptDemo(updates.plainText);
+    }
+    
+    const updateData: any = { ...updates };
+    if (encrypted) {
+      updateData.encrypted_password = encrypted;
+    }
+    delete updateData.plainText;
+    delete updateData.decrypted_password;
+
+    const { data, error } = await supabase
+      .from('passwords')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error updating password", error);
+      return null;
+    }
+
+    if (data) {
+      const dbEntry = { ...data, decrypted_password: updates.plainText || passwords.find(p => p.id === id)?.decrypted_password };
+      setPasswords(passwords.map(p => p.id === id ? dbEntry : p));
+      return dbEntry;
+    }
+  };
+
+  return { passwords, loading, addPassword, updatePassword, deletePassword, refresh: fetchPasswords };
 }
