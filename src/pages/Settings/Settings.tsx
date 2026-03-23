@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
 import { Settings as SettingsIcon, Shield, Download, Trash2, Lock } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export default function Settings() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [twoFactor, setTwoFactor] = useState(false);
 
   const handleExport = () => {
