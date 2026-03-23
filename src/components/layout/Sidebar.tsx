@@ -3,7 +3,7 @@ import { LayoutDashboard, Lock, ShieldAlert, Settings, Shield } from 'lucide-rea
 import { cn } from '../../lib/utils';
 
 const navItems = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'My Vault', href: '/vault', icon: Lock },
   { name: 'Security Insights', href: '/insights', icon: ShieldAlert },
   { name: 'Settings', href: '/settings', icon: Settings },
@@ -15,7 +15,7 @@ export default function Sidebar() {
   return (
     <div className="w-64 bg-surface border-r border-gray-800 flex flex-col h-full">
       <div className="h-16 flex items-center px-6 border-b border-gray-800">
-        <Link to="/" className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors">
+        <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors">
           <Shield className="w-6 h-6 text-blue-500" />
           <span className="font-bold text-lg tracking-tight">Sentinel AI</span>
         </Link>
