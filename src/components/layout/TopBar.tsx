@@ -1,4 +1,4 @@
-import { Search, Bell, LogOut } from 'lucide-react';
+import { Search, LogOut } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,13 +29,6 @@ export default function TopBar() {
       </div>
 
       <div className="flex items-center gap-4 ml-6">
-        <button className="text-gray-400 hover:text-white transition-colors relative">
-          <Bell className="w-5 h-5" />
-          <span className="absolute 1 top-0 right-0 w-2 h-2 rounded-full bg-red-500 border border-surface"></span>
-        </button>
-
-        <div className="h-6 w-px bg-gray-800"></div>
-
         <div className="flex items-center gap-3">
           <div className="hidden sm:block text-right">
             <p className="text-sm font-medium text-white truncate max-w-[150px]">
