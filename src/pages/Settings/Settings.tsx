@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Settings as SettingsIcon, Shield, Trash2, Lock } from 'lucide-react';
-import { cn } from '../../lib/utils';
+import { Settings as SettingsIcon, Shield, Trash2 } from 'lucide-react';
 
 export default function Settings() {
   const { user } = useAuth();
-  const [twoFactor, setTwoFactor] = useState(false);
 
   const handleDeleteAccount = async () => {
     if (confirm("Are you absolutely sure? This will delete all your passwords forever.")) {
@@ -40,34 +37,6 @@ export default function Settings() {
                 <div className="inline-flex mt-2 items-center gap-1.5 px-2.5 py-1 rounded bg-green-500/10 text-green-400 text-xs font-medium border border-green-500/20">
                   <Shield className="w-3 h-3" /> Account Verified
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Security Preferences */}
-          <section className="glass-panel p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 border-b border-gray-800 pb-3 flex items-center gap-2">
-              <Lock className="w-5 h-5 text-gray-400" /> Security Preferences
-            </h3>
-            
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-medium text-gray-200">Two-Factor Authentication (2FA)</h4>
-                  <p className="text-xs text-gray-400 mt-1">Add an extra layer of security to your vault.</p>
-                </div>
-                <button 
-                  onClick={() => setTwoFactor(!twoFactor)}
-                  className={cn(
-                    "w-12 h-6 rounded-full transition-colors relative",
-                    twoFactor ? "bg-blue-500" : "bg-gray-700"
-                  )}
-                >
-                  <div className={cn(
-                    "w-4 h-4 rounded-full bg-white absolute top-1 transition-transform",
-                    twoFactor ? "translate-x-7" : "translate-x-1"
-                  )}></div>
-                </button>
               </div>
             </div>
           </section>
