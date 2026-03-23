@@ -1,15 +1,11 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Settings as SettingsIcon, Shield, Download, Trash2, Lock } from 'lucide-react';
+import { Settings as SettingsIcon, Shield, Trash2, Lock } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export default function Settings() {
   const { user } = useAuth();
   const [twoFactor, setTwoFactor] = useState(false);
-
-  const handleExport = () => {
-    alert("In a production app, this would decrypt and download a CSV of your passwords.");
-  };
 
   const handleDeleteAccount = async () => {
     if (confirm("Are you absolutely sure? This will delete all your passwords forever.")) {
@@ -80,21 +76,6 @@ export default function Settings() {
 
         {/* Right Column - Data & Danger Zone */}
         <div className="space-y-6">
-          
-          <section className="glass-panel p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 border-b border-gray-800 pb-3 flex items-center gap-2">
-              <Download className="w-5 h-5 text-gray-400" /> Data Export
-            </h3>
-            <p className="text-xs text-gray-400 mb-4 leading-relaxed">
-              Download a copy of your decrypted vault securely to your local machine as a CSV file. Keep this file extremely safe.
-            </p>
-            <button 
-              onClick={handleExport}
-              className="w-full flex justify-center items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl text-sm font-medium text-white transition-colors"
-            >
-              Export Vault Data
-            </button>
-          </section>
 
           <section className="glass-panel p-6 border-red-500/20 bg-red-500/5">
             <h3 className="text-lg font-semibold text-red-500 mb-4 border-b border-red-500/20 pb-3 flex items-center gap-2">
