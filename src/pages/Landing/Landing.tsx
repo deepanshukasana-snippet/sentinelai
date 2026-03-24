@@ -70,7 +70,7 @@ export default function Landing() {
             <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 transition-transform">
               <Lock className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Impenetrable Vault</h3>
+            <h2 className="text-xl font-bold text-white mb-3">Impenetrable Vault</h2>
             <p className="text-sm text-gray-400 leading-relaxed">
               Your credentials are encrypted heavily before they ever leave your device. Zero-knowledge architecture ensures total privacy.
             </p>
@@ -80,7 +80,7 @@ export default function Landing() {
             <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-6 text-purple-400 group-hover:scale-110 transition-transform">
               <Activity className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Real-time Insights</h3>
+            <h2 className="text-xl font-bold text-white mb-3">Real-time Insights</h2>
             <p className="text-sm text-gray-400 leading-relaxed">
               Instantly know your vault's health with live dashboards. Spot weak or reused passwords before they become a breach.
             </p>
@@ -90,7 +90,7 @@ export default function Landing() {
             <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-6 text-green-400 group-hover:scale-110 transition-transform">
               <Zap className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Groq AI Powered</h3>
+            <h2 className="text-xl font-bold text-white mb-3">Groq AI Powered</h2>
             <p className="text-sm text-gray-400 leading-relaxed">
               Leverage the blistering speed of Llama 3 via Groq for deep, holistic security assessments and smart password recommendations.
             </p>

@@ -20,6 +20,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
       <div className="flex items-center flex-1 max-w-lg">
         <button 
           onClick={onMenuClick}
+          aria-label="Toggle Navigation Menu"
           className="md:hidden mr-4 p-2 -ml-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
         >
           <Menu className="w-6 h-6" />
@@ -52,6 +53,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           
           <button 
             onClick={handleSignOut}
+            aria-label="Sign Out"
             className="ml-1 sm:ml-2 text-gray-500 hover:text-red-400 transition-colors p-2 rounded-lg hover:bg-red-500/10"
             title="Sign out"
           >

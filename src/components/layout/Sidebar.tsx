@@ -41,6 +41,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
           </Link>
           <button 
             className="md:hidden text-gray-400 hover:text-white"
+            aria-label="Close Navigation Menu"
             onClick={() => setIsOpen(false)}
           >
             <X className="w-5 h-5" />
